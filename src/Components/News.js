@@ -38,7 +38,7 @@ export class News extends Component {
   render() {
     return (
       <div className='container my-3'>
-        <h2>NewsMonkey - Headlines</h2>
+        <h2>SnapNews - Headlines</h2>
 
         <div className="row">
           {this.state.articles.map((element)=>{
