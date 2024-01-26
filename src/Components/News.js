@@ -1,7 +1,21 @@
 import React, { Component } from 'react'
 import Newsitem from './Newsitem'
+import Spinning from './Spinning';
+import PropTypes from 'prop-types'
+
 
 export class News extends Component {
+
+  static defaultProps={
+    country:"in",
+    pageSize: 4,
+    category: "general"
+  }
+  static propTypes={
+    country: PropTypes.string,
+    pageSize: PropTypes.number
+  }
+
      constructor(){
         super();
         this.state={
@@ -12,36 +26,43 @@ export class News extends Component {
       }
 
       async componentDidMount(){
-        let url="https://newsapi.org/v2/everything?q=tesla&from=2023-12-22&sortBy=publishedAt&apiKey=c6f9a396ff68457cae73e9ab37d00347&page=1&pageSize=32"
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7a842bbcdd5d46e4bca4e53832eae102&page=1&pageSize=${this.props.pageSize}`
+        this.setState({loading:true});
         let data= await fetch(url);
         let parsedData=await data.json()
-        this.setState({articles: parsedData.articles})
+        this.setState({articles: parsedData.articles,totalResults:parsedData.totalResults,loading:false})
+        
       }
 
       handleprevclick = async()=>{
-        let url=`https://newsapi.org/v2/everything?q=tesla&from=2023-12-22&sortBy=publishedAt&apiKey=c6f9a396ff68457cae73e9ab37d00347&page=${this.state.page-1}&pageSize=32`;
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7a842bbcdd5d46e4bca4e53832eae102&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
+        this.setState({loading:true});
         let data= await fetch(url);
         let parsedData=await data.json()
         this.setState({page: this.state.page-1,
-          articles: parsedData.articles})
+          articles: parsedData.articles,loading:false})
       }
 
       handlenextclick = async()=>{
-        let url=`https://newsapi.org/v2/everything?q=tesla&from=2023-12-22&sortBy=publishedAt&apiKey=c6f9a396ff68457cae73e9ab37d00347&page=${this.state.page+1}&pageSize=32`;
+        if(!(this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize))){
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7a842bbcdd5d46e4bca4e53832eae102&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
+        this.setState({loading: true});
         let data= await fetch(url);
         let parsedData=await data.json()
         this.setState({page: this.state.page+1,
-          articles: parsedData.articles})
+          articles: parsedData.articles,loading: false})
 
-      }
+      }}
 
   render() {
     return (
       <div className='container my-3'>
         <h2>SnapNews - Headlines</h2>
+        {this.state.loading && <Spinning/>}
+
 
         <div className="row">
-          {this.state.articles.map((element)=>{
+          {!this.state.loading && this.state.articles.map((element)=>{
             return <div className="col-md-3" key={element.url} >
         <Newsitem title={element.title?element.title.slice(0,40):""} description={element.description?element.description.slice(0,60):""} imgurl={element.urlToImage} newsurl={element.url} />
         </div>
