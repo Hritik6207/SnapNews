@@ -57,7 +57,7 @@ export class News extends Component {
   render() {
     return (
       <div className='container my-3'>
-        <h2>SnapNews - Headlines</h2>
+        <h2 className='text-center' style={{marginTop:'90px'}}>SnapNews - Headlines</h2>
         {this.state.loading && <Spinning/>}
 
 
