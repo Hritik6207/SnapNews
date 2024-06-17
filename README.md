@@ -1,3 +1,3 @@
-• Crafted SnapNews, a dynamic React web application, adeptly and efficiently retrieves news details from NewsAPI, ensuring users receive real-time updates promptly.
+• Engineered SnapNews, a cutting-edge React web app utilizing NewsAPI for real-time news updates. 
+• Emphasized efficiency and responsiveness across a wide range of devices to seamlessly inform users in real-time, while also prioritizing accessibility features and ensuring compliance with industry standards.
 
-• Prioritized efficiency and responsiveness, allowing users to stay informed across diverse devices with a consistent and engaging interface
