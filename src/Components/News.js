@@ -3,7 +3,6 @@ import Newsitem from './Newsitem'
 import Spinning from './Spinning';
 import PropTypes from 'prop-types'
 
-//Component to display news items
 
 export class News extends Component {
 
